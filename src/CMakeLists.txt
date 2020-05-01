@@ -18,3 +18,5 @@ target_include_directories(
     PUBLIC
     ${PROJECT_SOURCE_DIR}/include
 )
+
+target_link_libraries(inexor-entity-component-system PUBLIC ${CONAN_LIBS})
