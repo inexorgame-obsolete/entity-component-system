@@ -42,7 +42,6 @@ class ThreadPool {
     };
 
     std::vector<std::thread> threads;
-    std::unordered_map<std::thread::id, int> thread_map;
 
     // TODO(*): Find a way to remove indirection
     std::queue<std::unique_ptr<BaseContainer>> work_queue;
@@ -63,7 +62,6 @@ public:
     template <typename Func, typename... Args, std::enable_if_t<std::is_invocable_v<Func, Args...>, int> = 0>
     auto submit(Func func, Args &&... args);
 
-    int get_thread_id() const;
     int get_queue_count() const;
 };
 

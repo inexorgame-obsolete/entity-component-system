@@ -20,7 +20,7 @@ int main() {
         for (int i = 0; i < 10; i++) {
             futures.push_back(pool.submit([&]() {
                 std::this_thread::sleep_for(std::chrono::seconds(range(rng)));
-                spdlog::info("Hello from thread {}", pool.get_thread_id());
+                spdlog::info("Hello world!");
             }));
         }
 

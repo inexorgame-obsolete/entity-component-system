@@ -22,7 +22,6 @@ ThreadPool::ThreadPool(std::size_t thread_count) : stop_threads(false) {
     for (std::size_t i = 0; i < thread_count; i++) {
         threads.emplace_back([&, i]() {
             std::unique_lock<std::mutex> lock(work_queue_mutex, std::defer_lock);
-            thread_map[std::this_thread::get_id()] = i;
 
             while (true) {
                 lock.lock();
@@ -53,10 +52,6 @@ ThreadPool::~ThreadPool() {
     for (auto &thread : threads) {
         thread.join();
     }
-}
-
-int ThreadPool::get_thread_id() const {
-    return thread_map.at(std::this_thread::get_id());
 }
 
 int ThreadPool::get_queue_count() const {
