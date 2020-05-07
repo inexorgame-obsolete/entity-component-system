@@ -79,7 +79,7 @@ auto ThreadPool::submit(Func func, Args &&... args) {
 
     work_queue_cv.notify_one();
 
-    return std::move(future);
+    return future;
 }
 
 } // namespace inexor::ecs
