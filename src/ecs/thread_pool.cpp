@@ -54,7 +54,7 @@ ThreadPool::~ThreadPool() {
     }
 }
 
-int ThreadPool::get_queue_count() const {
+int ThreadPool::get_num_waiting_jobs() const {
     std::scoped_lock<std::mutex> lock(work_queue_mutex);
     return work_queue.size();
 }

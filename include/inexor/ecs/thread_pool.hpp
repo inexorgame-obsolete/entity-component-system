@@ -58,16 +58,20 @@ public:
     ThreadPool &operator=(const ThreadPool &) = delete;
     ThreadPool &operator=(ThreadPool &&) noexcept = delete;
 
+    /// @brief Submit a function to the thread pool for execution.
+    /// @note Func must be invocable with Args.
     template <typename Func, typename... Args, std::enable_if_t<std::is_invocable_v<Func, Args...>, int> = 0>
     auto submit(Func func, Args &&... args);
 
-    int get_queue_count() const;
+    /// @brief Returns the number of jobs waiting in the queue.
+    int get_num_waiting_jobs() const;
 };
 
 template <typename Func, typename... Args, std::enable_if_t<std::is_invocable_v<Func, Args...>, int>>
 auto ThreadPool::submit(Func func, Args &&... args) {
     using invoke_type = std::invoke_result_t<Func, Args...>;
 
+    // TODO(*): Move away from std::packaged_task
     std::packaged_task<invoke_type()> task_package(std::bind(func, std::forward<Args>(args)...));
     std::future<invoke_type> future = task_package.get_future();
 
