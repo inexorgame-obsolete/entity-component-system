@@ -2,7 +2,10 @@
 
 #include <spdlog/spdlog.h>
 
+#include <chrono>
+#include <future>
 #include <random>
+#include <vector>
 
 using inexor::ecs::ThreadPool;
 
