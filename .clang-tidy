@@ -1,10 +1,18 @@
 ---
-Checks:          'clang-diagnostic-*,clang-analyzer-*,bugprone-*,clang-analyzer-*,clang-diagnostics-*,cppcoreguidelines-*,google-*,llvm-*,misc-*,modernize-*,performance-*,portability-*,readability-*,-modernize-use-trailing-return-type,-llvm-header-guard'
-WarningsAsErrors: ''
-HeaderFilterRegex: 'inexor/*'
-AnalyzeTemporaryDtors: false
+Checks: >
+  *,
+  -fuchsia*,
+  -zircon*,
+
+  -cppcoreguidelines-avoid-magic-numbers,
+  -cppcoreguidelines-pro-bounds-array-to-pointer-decay,
+  -hicpp-uppercase-literal-suffix,
+  -llvm-header-guard,
+  -modernize-use-trailing-return-type,
+  -readability-magic-numbers,
+  -readability-uppercase-literal-suffix,
 FormatStyle:     file
-User:            iceflower
+HeaderFilterRegex: 'inexor/*'
 CheckOptions:
   - key:             bugprone-argument-comment.CommentBoolLiterals
     value:           '0'
