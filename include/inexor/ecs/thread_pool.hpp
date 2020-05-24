@@ -40,6 +40,7 @@ class ThreadPool {
         }
     };
 
+private:
     std::vector<std::thread> m_threads;
 
     // TODO(*): Find a way to remove indirection
