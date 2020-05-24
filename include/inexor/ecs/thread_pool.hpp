@@ -30,24 +30,24 @@ class ThreadPool {
 
     template <typename Func>
     class Container : public BaseContainer {
-        Func func;
+        Func m_func;
 
     public:
-        explicit Container(Func &&func) : func(std::forward<Func>(func)) {}
+        explicit Container(Func &&func) : m_func(std::forward<Func>(func)) {}
 
         void operator()() override {
-            func();
+            m_func();
         }
     };
 
-    std::vector<std::thread> threads;
+    std::vector<std::thread> m_threads;
 
     // TODO(*): Find a way to remove indirection
-    std::queue<std::unique_ptr<BaseContainer>> work_queue;
-    mutable std::mutex work_queue_mutex;
+    std::queue<std::unique_ptr<BaseContainer>> m_work_queue;
+    mutable std::mutex m_work_queue_mutex;
 
-    std::atomic<bool> stop_threads;
-    std::condition_variable work_queue_cv;
+    std::atomic<bool> m_stop_threads;
+    std::condition_variable m_work_queue_cv;
 
 public:
     explicit ThreadPool(std::size_t thread_count = std::thread::hardware_concurrency());
@@ -64,7 +64,7 @@ public:
     auto submit(Func func, Args &&... args);
 
     /// @brief Returns the number of jobs waiting in the queue.
-    int get_num_waiting_jobs() const;
+    int num_pending_jobs() const;
 };
 
 template <typename Func, typename... Args, std::enable_if_t<std::is_invocable_v<Func, Args...>, int>>
@@ -76,11 +76,11 @@ auto ThreadPool::submit(Func func, Args &&... args) {
     std::future<invoke_type> future = task_package.get_future();
 
     {
-        std::scoped_lock<std::mutex> lock(work_queue_mutex);
-        work_queue.push(std::make_unique<Container<decltype(task_package)>>(std::move(task_package)));
+        std::scoped_lock<std::mutex> lock(m_work_queue_mutex);
+        m_work_queue.push(std::make_unique<Container<decltype(task_package)>>(std::move(task_package)));
     }
 
-    work_queue_cv.notify_one();
+    m_work_queue_cv.notify_one();
 
     return future;
 }
