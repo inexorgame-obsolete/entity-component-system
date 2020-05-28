@@ -1,4 +1,4 @@
-add_executable(inexor-ecs-benchmarks main.cpp)
+add_executable(inexor-ecs-benchmarks main.cpp thread_pool_benchmark.cpp)
 
 set_target_properties(
     inexor-ecs-benchmarks PROPERTIES
