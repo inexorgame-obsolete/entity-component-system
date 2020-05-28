@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.7)
-project(inexor-entity-component-system)
+project(inexor-ecs)
 
 # Stop in source builds
 set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)

@@ -1,7 +1,7 @@
-add_library(inexor-entity-component-system ecs/thread_pool.cpp)
+add_library(inexor-ecs ecs/thread_pool.cpp)
 
 set_target_properties(
-    inexor-entity-component-system PROPERTIES
+    inexor-ecs PROPERTIES
 
     CXX_EXTENSIONS OFF
     CXX_STANDARD 17
@@ -9,14 +9,14 @@ set_target_properties(
 )
 
 if(MSVC)
-    target_compile_options(inexor-entity-component-system PRIVATE "/MP")
+    target_compile_options(inexor-ecs PRIVATE "/MP")
 endif()
 
 target_include_directories(
-    inexor-entity-component-system
+    inexor-ecs
 
     PUBLIC
     ${PROJECT_SOURCE_DIR}/include
 )
 
-target_link_libraries(inexor-entity-component-system PUBLIC ${CONAN_LIBS})
+target_link_libraries(inexor-ecs PUBLIC ${CONAN_LIBS})
