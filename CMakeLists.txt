@@ -25,3 +25,6 @@ endif()
 if(INEXOR_ECS_BUILD_EXAMPLE)
     add_subdirectory(example)
 endif()
+
+# Install
+include(install)

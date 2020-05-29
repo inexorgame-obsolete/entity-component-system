@@ -1,31 +1,48 @@
-from conans import ConanFile, CMake
+from conans import CMake
+from conans import ConanFile
 
-class InexorConan(ConanFile):
 
-    settings = (
-        "os",
-        "compiler",
-        "build_type",
-        "arch"
-    )
-
+class InexorECSConan(ConanFile):
+    name = "inexor-ecs"
+    version = "0.1.0"
+    homepage = "https://github.com/inexorgame/entity-component-system"
+    description = "A thread safe C++17 entity component system. "
+    topics = ("entity", "component", "system", "inexor")
+    url = "https://github.com/inexorgame/entity-component-system"
+    settings = "os", "compiler", "arch", "build_type"
+    generators = "cmake"
+    no_copy_source = True
+    license = "MIT"
     requires = (
-        "benchmark/1.5.0",
-        "gtest/1.10.0",
         "spdlog/1.5.0",
     )
+    options = {
+        "build_benchmarks": [True, False],
+    }
+    default_options = {
+        "build_benchmarks": False,
+    }
 
-    generators = "cmake"
+    exports_sources = "*"
 
-    def imports(self):
-        # Copies all dll files from packages bin folder to my "bin" folder (win)
-        self.copy("*.dll", dst="bin", src="bin")
-        # Copies all dylib files from packages lib folder to my "lib" folder (macosx)
-        self.copy("*.dylib*", dst="lib", src="lib") # From lib to lib
-        # Copies all so files from packages lib folder to my "lib" folder (linux)
-        self.copy("*.so*", dst="lib", src="lib") # From lib to lib
+    def requirements(self):
+        if self.options.build_benchmarks:
+            self.requires("benchmark/1.5.0")
+
+    @property
+    def _build_subfolder(self):
+        return "build_subfolder"
 
     def build(self):
         cmake = CMake(self)
         cmake.configure()
         cmake.build()
+
+    def package(self):
+        self.copy(pattern="LICENSE.md", src="./", dst="licenses")
+        cmake = CMake(self)
+        cmake.configure()
+        cmake.install()
+
+    def package_info(self):
+        self.cpp_info.libs = ["inexor/ecs"]

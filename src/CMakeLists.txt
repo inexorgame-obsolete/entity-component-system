@@ -1,3 +1,5 @@
+cmake_minimum_required(VERSION 3.7)
+
 add_library(inexor-ecs ecs/thread_pool.cpp)
 
 set_target_properties(

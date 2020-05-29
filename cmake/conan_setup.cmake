@@ -3,18 +3,12 @@
 if (NOT EXISTS "${PROJECT_BINARY_DIR}/conan.cmake")
     message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
     file(
-        DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/v0.14/conan.cmake"
+        DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/v0.15/conan.cmake"
         "${PROJECT_BINARY_DIR}/conan.cmake"
     )
 endif ()
 include(${PROJECT_BINARY_DIR}/conan.cmake)
 conan_check(VERSION 1.19.1 REQUIRED)
-
-conan_add_remote(
-    NAME bincrafters
-    INDEX 1
-    URL https://api.bintray.com/conan/bincrafters/public-conan
-)
 
 conan_cmake_run(
     CONANFILE conanfile.py

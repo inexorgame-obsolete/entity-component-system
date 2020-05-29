@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.7)
 add_executable(inexor-ecs-example main.cpp)
 
 set_target_properties(
