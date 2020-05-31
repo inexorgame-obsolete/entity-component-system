@@ -1,4 +1,9 @@
-add_library(inexor-ecs ecs/thread_pool.cpp)
+add_library(
+    inexor-ecs
+
+    ecs/ecs.cpp
+    ecs/thread_pool.cpp
+)
 
 set_target_properties(
     inexor-ecs PROPERTIES
