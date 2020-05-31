@@ -74,7 +74,9 @@ class EntityManager {
 
 private:
     // unique_ptr is needed because every component has a different size
-    std::unordered_map<EntityId, std::unordered_map<BaseComponentContainer::family_type, std::unique_ptr<BaseComponentContainer>>> m_components;
+    std::unordered_map<EntityId,
+                       std::unordered_map<BaseComponentContainer::family_type, std::unique_ptr<BaseComponentContainer>>>
+        m_components;
     EntityId m_count;
 
 public:
@@ -113,7 +115,8 @@ template <typename C, typename... Args>
 C *EntityManager::add_to(EntityId id, Args &&... args) {
     // Use of std::unordered_map::operator[] ensures presence
     auto &components = m_components[id];
-    auto pair = components.emplace(ComponentContainer<C>::family(), std::make_unique<ComponentContainer<C>>(std::forward<Args>(args)...));
+    auto pair = components.emplace(ComponentContainer<C>::family(),
+                                   std::make_unique<ComponentContainer<C>>(std::forward<Args>(args)...));
     return static_cast<ComponentContainer<C> *>(pair.first->second.get())->comp();
 }
 
